@@ -1,0 +1,18 @@
+ARG BUILD_IMAGE=python:3.9.18-alpine3.17
+ARG BASE_IMAGE=eclipse-temurin:17-jre-alpine
+FROM ${BUILD_IMAGE} AS builder
+COPY build/* /
+RUN pip install -r requirements.txt
+WORKDIR /data
+ARG MINECRAFT_VERSION=1.20.1
+RUN python3 /dlServer.py $MINECRAFT_VERSION
+ARG AUTHLIB_VERSION=1.2.3
+RUN wget -O authlib-injector.jar \
+	https://github.com/yushijinhun/authlib-injector/releases/download/v$AUTHLIB_VERSION/authlib-injector-$AUTHLIB_VERSION.jar
+FROM ${BASE_IMAGE}
+WORKDIR /data
+COPY --from=builder --chmod=0755 /data/* /data/
+COPY --chmod=0755 run/* /data/
+ENV RAM_LIMIT=2G AUTH_SERVER=ely.by
+EXPOSE 25565
+CMD ["/data/start.sh"]
