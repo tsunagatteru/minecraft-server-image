@@ -3,9 +3,9 @@ import json
 import sys
 import urllib.request
 
-versionManifestUrl = "https://launchermeta.mojang.com/mc/game/version_manifest.json"
+versionmanifesturl = "https://launchermeta.mojang.com/mc/game/version_manifest.json"
 
-def loadJson(url):
+def loadjson(url):
     response = requests.get(url)
     if (int(response.status_code) != 200):
         print("http error - " + str(response.status_code))
@@ -14,24 +14,24 @@ def loadJson(url):
     return data
 
 def main():
-   versionManifestData = loadJson(versionManifestUrl)
-   targetVersion = sys.argv[1]
-   if (targetVersion == "latest") or (targetVersion == "latest-release"):
-       targetVersion = versionManifestData['latest']['release']
-   if (targetVersion == "latest-snapshot"):
-       targetVersion = versionManifestData['latest']['snapshot']
-   packageManifestUrl = None
-   for versionEntry in versionManifestData['versions']:
-       if (versionEntry['id'] == targetVersion):
-           packageManifestUrl = versionEntry['url']
+   versionmanifestdata = loadjson(versionmanifesturl)
+   targetversion = sys.argv[1]
+   if (targetversion == "latest") or (targetversion == "latest-release"):
+       targetversion = versionmanifestdata['latest']['release']
+   if (targetversion == "latest-snapshot"):
+       targetversion = versionmanifestdata['latest']['snapshot']
+   packagemanifesturl = None
+   for versionentry in versionmanifestdata['versions']:
+       if (versionentry['id'] == targetversion):
+           packagemanifesturl = versionentry['url']
            break
-   if (packageManifestUrl == None):
-       print("Version not found")
+   if (packagemanifesturl == None):
+       print("version not found")
        exit(1)
-   packageManifestData = loadJson(packageManifestUrl)
-   downloadUrl = packageManifestData['downloads']['server']['url']
-   urllib.request.urlretrieve(downloadUrl, 'server.jar') 
-   print(downloadUrl)
+   packagemanifestdata = loadjson(packagemanifesturl)
+   downloadurl = packagemanifestdata['downloads']['server']['url']
+   urllib.request.urlretrieve(downloadurl, 'server.jar')
+   print(downloadurl)
    return 0
    
 if __name__ == "__main__":
