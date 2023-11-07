@@ -10,6 +10,12 @@ services:
       EULA: 'true'
     volumes:
       - minecraft-data:/data
+    healthcheck:
+      test: netstat -tulpn | grep ':25565' ||exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 4
+      start_period: 20s
 
 volumes:
   minecraft-data:

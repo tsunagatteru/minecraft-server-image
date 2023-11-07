@@ -1,0 +1,8 @@
+version: '2'
+services:
+  mc-test:
+    build: ./test
+    command: python /serverStatus.py
+    depends_on:
+      minecraft:
+        condition: service_healthy
