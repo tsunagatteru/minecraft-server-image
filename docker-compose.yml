@@ -5,8 +5,9 @@ services:
     ports:
       - "25565:25565"
     environment:
-      RAM_LIMIT: 2G
-      AUTH_SERVER: ely.by
+      RAM_LIMIT: '2G'
+      AUTH_SERVER: 'ely.by'
+      EULA: 'true'
     volumes:
       - minecraft-data:/data
 

@@ -14,6 +14,6 @@ RUN mkdir /mc-server
 COPY --from=builder --chmod=0755 /build/* /app/
 COPY --chmod=0755 run/* /app/
 WORKDIR /data
-ENV RAM_LIMIT=2G AUTH_SERVER=ely.by
+ENV RAM_LIMIT=2G AUTH_SERVER=ely.by EULA=true
 EXPOSE 25565
 CMD ["/app/start.sh"]
