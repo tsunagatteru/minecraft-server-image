@@ -1,0 +1,23 @@
+version: '2'
+services:
+  minecraft:
+    build: .
+    ports:
+      - "25565:25565"
+    environment:
+      RAM_LIMIT: '2G'
+      AUTH_SERVER: ''
+      EULA: 'false'
+    volumes:
+      - minecraft-data:/data
+    healthcheck:
+      test: netstat -tulpn | grep ':25565' ||exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 4
+      start_period: 20s
+    tty: true
+    stdin_open: true
+
+volumes:
+  minecraft-data:
