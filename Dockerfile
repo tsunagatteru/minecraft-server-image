@@ -4,9 +4,9 @@ FROM ${BUILD_IMAGE} AS builder
 COPY build/* /
 RUN pip install -r requirements.txt
 WORKDIR /build
-ARG MINECRAFT_VERSION="1.21"
+ARG MINECRAFT_VERSION="1.7.10"
 RUN python3 /dlServer.py $MINECRAFT_VERSION
-ARG AUTHLIB_VERSION="1.2.5"
+ARG AUTHLIB_VERSION="1.2.7"
 RUN wget -O authlib-injector.jar \
 	https://github.com/yushijinhun/authlib-injector/releases/download/v$AUTHLIB_VERSION/authlib-injector-$AUTHLIB_VERSION.jar
 FROM ${BASE_IMAGE}
